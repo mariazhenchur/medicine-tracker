@@ -10,7 +10,7 @@ export const connectToDatabase = async () => {
     }
 
     // Create a new MongoClient instance if not already connected
-    const client = new MongoClient(process.env.MONGODB_URI2); // Use your MongoDB URI here
+    const client = new MongoClient(process.env.MONGODB_URI); // Use your MongoDB URI here
     await client.connect(); // Wait for the connection to be established
 
     // Cache the client and database instances
