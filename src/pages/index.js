@@ -59,17 +59,27 @@ const HomePage = ({ medicines }) => {
 export async function getServerSideProps() {
   const baseUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
-    : 'http://localhost:3000'; // fallback to local development if not deployed
-  const res = await fetch(`${baseUrl}/api/medicines`);
+    : 'http://localhost:3000'; // Fallback to local development if not deployed
 
-  if (!res.ok) {
-    console.error('Failed to fetch medicines:', res.statusText);
-    return { props: { medicines: [] } }; // Return empty list if the fetch fails
+  console.log('Fetching medicines from:', `${baseUrl}/api/medicines`); // Log the full API URL
+
+  try {
+    const res = await fetch(`${baseUrl}/api/medicines`);
+
+    if (!res.ok) {
+      console.error('Failed to fetch medicines:', res.statusText);
+      return { props: { medicines: [] } }; // Return empty list if the fetch fails
+    }
+
+    const medicines = await res.json();
+
+    console.log('Medicines fetched:', medicines); // Log the fetched medicines
+
+    return { props: { medicines } };
+  } catch (error) {
+    console.error('Error fetching medicines:', error);
+    return { props: { medicines: [] } }; // Return empty list in case of error
   }
-
-  const medicines = await res.json();
-
-  return { props: { medicines } };
 }
 
 
