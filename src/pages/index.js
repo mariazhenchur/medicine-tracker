@@ -57,8 +57,16 @@ const HomePage = ({ medicines }) => {
 
 // Fetch medicines from MongoDB
 export async function getServerSideProps() {
-  const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
-  const res = await fetch(`${baseUrl}/api/medicines`);  // Dynamic URL
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000'; // fallback to local development if not deployed
+  const res = await fetch(`${baseUrl}/api/medicines`);
+
+  if (!res.ok) {
+    console.error('Failed to fetch medicines:', res.statusText);
+    return { props: { medicines: [] } }; // Return empty list if the fetch fails
+  }
+
   const medicines = await res.json();
 
   return { props: { medicines } };
