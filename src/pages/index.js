@@ -1,0 +1,69 @@
+// /pages/index.js
+import React, { useState } from 'react';
+import Link from 'next/link';
+import Button from '@/components/Button';
+
+const HomePage = ({ medicines }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredMedicines = medicines.filter((medicine) =>
+    medicine.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div className="home-page-container">
+      <h1 className="title">Medicine Tracker</h1>
+      <input
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{
+          marginBottom: "20px",
+          marginLeft: "10px",
+          padding: "8px",
+          fontSize: "16px",
+          width: "85%",
+          maxWidth: "400px",
+        }}
+      />
+      <div className="main-content">
+        <ul>
+          {filteredMedicines.map((medicine) => (
+            <li className="list" key={medicine._id}>
+              <img
+                src={medicine.photo}
+                alt={medicine.name}
+                style={{ width: "50px", height: "50px" }}
+              />
+              <div className="text-container">
+                <p className="paragraph">{medicine.name}</p>
+                <p className="paragraph">{medicine.dose}</p>
+                <p className="paragraph">{medicine.quantity} шт</p>
+              </div>
+              <div className="btns">
+                <Link href={`/medicine/${medicine._id}`}>
+                  <button className="button">Змінити</button>
+                </Link>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <Button />
+    </div>
+  );
+};
+
+// Fetch medicines from MongoDB
+export async function getServerSideProps() {
+  const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
+  const res = await fetch(`${baseUrl}/api/medicines`);  // Dynamic URL
+  const medicines = await res.json();
+
+  return { props: { medicines } };
+}
+
+
+export default HomePage;
+
