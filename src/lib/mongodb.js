@@ -2,19 +2,21 @@ import { MongoClient } from 'mongodb';
 
 const client = new MongoClient(process.env.MONGODB_URI);
 
-let isConnected = false;
+let cachedClient = null;
+let cachedDb = null;
 
-export async function connectToDatabase() {
-    if (!isConnected) {
-        try {
-            await client.connect();
-            isConnected = true;
-            console.log('Connected to MongoDB');
-        } catch (error) {
-            console.error('Failed to connect to MongoDB:', error);
-            throw error;
-        }
+export const connectToDatabase = async () => {
+    if (cachedClient && cachedDb) {
+        return cachedDb;
     }
-    const db = client.db('myDatabase'); // Replace with your DB name if needed
-    return db;
-}
+
+    if (!client.isConnected()) {
+        await client.connect();
+    }
+
+    cachedClient = client;
+    cachedDb = client.db();
+
+    return cachedDb;
+};
+
