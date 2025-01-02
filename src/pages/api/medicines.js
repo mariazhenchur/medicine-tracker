@@ -1,48 +1,46 @@
-import { MongoClient } from 'mongodb';
-import { connectToDatabase } from '../../lib/mongodb';
+import { MongoClient } from "mongodb";
 
 const handler = async (req, res) => {
-    const db = await connectToDatabase();
+    if (req.method === "GET") {
+        // Fetch medicines from the database
+        const client = await MongoClient.connect(process.env.MONGODB_URI2);
+        const db = client.db();
+        const medicinesCollection = db.collection("medicines");
+        const medicines = await medicinesCollection.find().toArray();
 
-    if (req.method === 'GET') {
-        try {
-            const medicines = await db.collection('medicines').find({}).toArray();
-            const medicinesWithStringId = medicines.map((medicine) => ({
-                ...medicine,
-                id: medicine._id.toString(), // Convert ObjectId to string
-            }));
+        // Convert ObjectId to string for each medicine
+        const medicinesWithStringId = medicines.map((medicine) => ({
+            ...medicine,
+            id: medicine._id.toString(), // Convert ObjectId to string
+        }));
 
-            return res.status(200).json(medicinesWithStringId);
-        } catch (error) {
-            console.error('Error fetching medicines:', error);
-            return res.status(500).json({ error: 'Failed to fetch medicines' });
-        }
-    } else if (req.method === 'POST') {
-        try {
-            const { name, dose, quantity, photo } = req.body;
+        res.status(200).json(medicinesWithStringId);
+        client.close();
+    } else if (req.method === "POST") {
+        // Add a new medicine to the database
+        const { name, dose, quantity, photo } = req.body;
+        const client = await MongoClient.connect(process.env.MONGODB_URI2);
+        const db = client.db();
+        const medicinesCollection = db.collection("medicines");
 
-            const result = await db.collection('medicines').insertOne({
-                name,
-                dose,
-                quantity,
-                photo,
-            });
+        const result = await medicinesCollection.insertOne({
+            name,
+            dose,
+            quantity,
+            photo,
+        });
 
-            return res.status(201).json({
-                id: result.insertedId.toString(),
-                name,
-                dose,
-                quantity,
-                photo,
-            });
-        } catch (error) {
-            console.error('Error inserting medicine:', error);
-            return res.status(500).json({ error: 'Error inserting medicine' });
-        }
-    } else {
-        return res.status(405).json({ error: 'Method Not Allowed' });
+        // Respond with the added medicine
+        res.status(201).json({
+            id: result.insertedId.toString(), // Convert ObjectId to string
+            name,
+            dose,
+            quantity,
+            photo,
+        });
+
+        client.close();
     }
 };
 
 export default handler;
-
