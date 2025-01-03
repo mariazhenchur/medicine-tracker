@@ -6,7 +6,7 @@ const AddMedicinePage = () => {
     const router = useRouter();
     const [form, setForm] = useState({
         name: "",
-        dose: "",
+        dose: "", 
         quantity: "",
         photo: null,
     });
