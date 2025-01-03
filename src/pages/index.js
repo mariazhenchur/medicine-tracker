@@ -58,7 +58,7 @@ const HomePage = ({ medicines }) => {
 export async function getServerSideProps() {
   const baseUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
-    : 'http://localhost:3000'; // Fallback to local development if not deployed
+    : 'http://localhost:3000';  // Fallback to local development if not deployed
 
   console.log('Fetching medicines from:', `${baseUrl}/api/medicines`); // Log the full API URL
 
