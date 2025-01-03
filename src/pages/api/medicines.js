@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 
 const handler = async (req, res) => {
     // Log the MongoDB URI to check if it's being fetched correctly
-    console.log("MongoDB URI:", process.env.MONGODB_URI2); // Log the URI here
+    console.error("MongoDB URI:", process.env.MONGODB_URI2); // Log the URI here
 
     if (req.method === "GET") {
         // Fetch medicines from the database
