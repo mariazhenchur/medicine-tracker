@@ -16,7 +16,7 @@ const AddMedicinePage = () => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
     };
-
+ 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
