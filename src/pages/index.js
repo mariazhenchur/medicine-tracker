@@ -5,20 +5,12 @@ import Button from '@/components/Button';
 export async function getServerSideProps() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  console.log('Base URL:', baseUrl);
-  console.log('Fetching medicines from:', `${baseUrl}/api/medicines`);
-
   try {
     const res = await fetch(`${baseUrl}/api/medicines`);
-
     if (!res.ok) {
-      console.error('Failed to fetch medicines:', res.statusText);
       return { props: { medicines: [] } };
     }
-
     const medicines = await res.json();
-    console.log('Medicines fetched:', medicines);
-
     return { props: { medicines } };
   } catch (error) {
     console.error('Error fetching medicines:', error);
@@ -26,18 +18,31 @@ export async function getServerSideProps() {
   }
 }
 
-
-
-
-
 const HomePage = ({ medicines }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [medicineList, setMedicineList] = useState(medicines);
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`/api/delete-medicine`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
+      });
 
+      if (response.ok) {
+        setMedicineList(medicineList.filter((medicine) => medicine._id !== id));
+      } else {
+        console.error('Failed to delete medicine:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting medicine:', error);
+    }
+  };
 
-
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const filteredMedicines = medicines.filter((medicine) =>
+  const filteredMedicines = medicineList.filter((medicine) =>
     medicine.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -50,12 +55,12 @@ const HomePage = ({ medicines }) => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         style={{
-          marginBottom: "20px",
-          marginLeft: "10px",
-          padding: "8px",
-          fontSize: "16px",
-          width: "85%",
-          maxWidth: "400px",
+          marginBottom: '20px',
+          marginLeft: '10px',
+          padding: '8px',
+          fontSize: '16px',
+          width: '85%',
+          maxWidth: '400px',
         }}
       />
       <div className="main-content">
@@ -65,7 +70,7 @@ const HomePage = ({ medicines }) => {
               <img
                 src={medicine.photo}
                 alt={medicine.name}
-                style={{ width: "50px", height: "50px" }}
+                style={{ width: '50px', height: '50px' }}
               />
               <div className="text-container">
                 <p className="paragraph">{medicine.name}</p>

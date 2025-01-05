@@ -1,9 +1,15 @@
 /* Basic styling for the page */
+
 .title {
   font-size: 24px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
+}
+
+.input-add {
+  padding: 12px;
+  width: 40px;
 }
 
 form {
@@ -50,6 +56,16 @@ button {
   cursor: pointer;
 }
 
+.delete-button {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  background-color: #e24141;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+
+}
 
 button[type="button"] {
   background-color: #fff3f2;
@@ -162,10 +178,31 @@ img {
 .list:last-child {
   padding-bottom: 70px;
 }
+
 .subtract {
   margin-left: 30px;
 }
 
 .info-container {
   text-align: center;
+  font-size: 22px;
 }
+
+.button-add {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  background-color: #000000;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.button-back {
+  margin-left: 0;
+  background-color: #a6a6a6;
+}
+
