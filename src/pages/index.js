@@ -3,30 +3,31 @@ import Link from 'next/link';
 import Button from '@/components/Button';
 
 export async function getServerSideProps() {
-  const baseUrl = process.env.VERCEL_URL
+  const baseUrl = process.env.VERCEL_ENV === 'production'
     ? `https://${process.env.VERCEL_URL}`
-    : 'http://localhost:3000';  // Fallback to local development if not deployed
+    : 'http://localhost:3000';
 
-  console.log('Fetching medicines from:', `${baseUrl}/api/medicines`); // Log the full API URL
+  console.log('Base URL:', baseUrl);
+  console.log('Fetching medicines from:', `${baseUrl}/api/medicines`);
 
   try {
     const res = await fetch(`${baseUrl}/api/medicines`);
 
     if (!res.ok) {
       console.error('Failed to fetch medicines:', res.statusText);
-      return { props: { medicines: [] } }; // Return empty list if the fetch fails
+      return { props: { medicines: [] } };
     }
 
     const medicines = await res.json();
-
-    console.log('Medicines fetched:', medicines); // Log the fetched medicines
+    console.log('Medicines fetched:', medicines);
 
     return { props: { medicines } };
   } catch (error) {
     console.error('Error fetching medicines:', error);
-    return { props: { medicines: [] } }; // Return empty list in case of error
+    return { props: { medicines: [] } };
   }
 }
+
 
 
 
@@ -34,7 +35,7 @@ const HomePage = ({ medicines }) => {
 
 
 
-  
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredMedicines = medicines.filter((medicine) =>
