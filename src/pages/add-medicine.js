@@ -106,7 +106,7 @@ const AddMedicinePage = () => {
                     <img src={photoPreview} alt="Preview" style={{ maxWidth: 100 }} />
                 )}
                 <br />
-                <button type="submit" className="btn">Add Medicine</button>
+                <button type="submit" className="btn">Додати медикамент</button>
             </form>
         </div>
     );

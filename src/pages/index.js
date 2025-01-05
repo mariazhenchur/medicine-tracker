@@ -51,7 +51,7 @@ const HomePage = ({ medicines }) => {
       <h1 className="title">Medicine Tracker</h1>
       <input
         type="text"
-        placeholder="Search..."
+        placeholder="Пошук..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         style={{
@@ -74,7 +74,7 @@ const HomePage = ({ medicines }) => {
               />
               <div className="text-container">
                 <p className="paragraph">{medicine.name}</p>
-                <p className="paragraph">{medicine.dose}</p>
+                <p className="paragraph">Доза: {medicine.dose}</p>
                 <p className="paragraph">{medicine.quantity} шт</p>
               </div>
               <div className="btns">
