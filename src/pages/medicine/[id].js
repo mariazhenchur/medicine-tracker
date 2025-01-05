@@ -56,7 +56,7 @@ const MedicinePage = () => {
                 type="number"
                 value={quantityDelta}
                 onChange={(e) => setQuantityDelta(e.target.value)}
-                placeholder="Enter quantity"
+                placeholder="Введіть кількість"
                 style={{ width: '250px', margin: '10px 0' }}
             />
             <div>
