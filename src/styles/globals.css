@@ -206,3 +206,11 @@ img {
   background-color: #a6a6a6;
 }
 
+.circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  height: 100vh;
+}
+

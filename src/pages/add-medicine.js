@@ -107,6 +107,9 @@ const AddMedicinePage = () => {
                 )}
                 <br />
                 <button type="submit" className="btn">Додати медикамент</button>
+                <button className='button-back' onClick={() => router.push('/')}>
+                Назад
+            </button>
             </form>
         </div>
     );

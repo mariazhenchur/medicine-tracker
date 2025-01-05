@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { MedicineContext } from '../../context/MedicineContext';
+import { CircularProgress } from '@mui/material';
 
 const MedicinePage = () => {
     
@@ -11,7 +12,7 @@ const MedicinePage = () => {
     const medicine = medicines.find((med) => med._id === id);
 
     if (!medicine) {
-        return <div>Medicine not found</div>;
+        return <div className='circle'><CircularProgress /></div>;
     }
 
     const [quantityDelta, setQuantityDelta] = useState("");

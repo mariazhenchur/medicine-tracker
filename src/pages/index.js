@@ -81,6 +81,12 @@ const HomePage = ({ medicines }) => {
                 <Link href={`/medicine/${medicine._id}`}>
                   <button className="button">Змінити</button>
                 </Link>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDelete(medicine._id)}
+                >
+                  X
+                </button>
               </div>
             </li>
           ))}
