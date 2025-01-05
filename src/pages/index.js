@@ -3,7 +3,8 @@ import Link from 'next/link';
 import Button from '@/components/Button';
 
 export async function getServerSideProps() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'; // Use production URL or fallback
 
   console.log('Base URL:', baseUrl);
   console.log('Fetching medicines from:', `${baseUrl}/api/medicines`);
@@ -25,10 +26,6 @@ export async function getServerSideProps() {
     return { props: { medicines: [] } };
   }
 }
-
-
-
-
 
 const HomePage = ({ medicines }) => {
 
