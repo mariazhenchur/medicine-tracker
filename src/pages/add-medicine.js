@@ -46,10 +46,10 @@ const AddMedicinePage = () => {
             });
 
             if (response.ok) {
-                alert("Medicine added successfully!");
+                alert("Медикамент додано успішно!");
                 router.push("/");  
             } else {
-                alert("Failed to add medicine");
+                alert("Упс( Сталася помилка при додаванні медикаменту");
             }
         } catch (error) {
             console.error("Error:", error);

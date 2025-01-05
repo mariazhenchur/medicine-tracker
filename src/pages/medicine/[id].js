@@ -21,7 +21,7 @@ const MedicinePage = () => {
         const newQuantity = medicine.quantity + delta;
 
         if (newQuantity < 0) {
-            alert("Quantity can't go below zero!");
+            alert("Кількість не може бути менше 0!");
             return;
         }
 
